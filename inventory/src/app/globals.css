@@ -125,12 +125,12 @@ body {
 
 @media(min-width: 786px) {
   .custom-grid-rows {
-    grid-template-rows: repeat(8,20vh);
+    grid-template-rows: repeat(8,25vh);
   }
 }
 
 @media(min-width: 1280px) {
   .custom-grid-rows {
-    grid-template-rows: repeat(8,20vh);
+    grid-template-rows: repeat(8,10vh);
   }
 }

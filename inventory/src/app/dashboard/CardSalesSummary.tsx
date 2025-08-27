@@ -20,21 +20,17 @@ const CardSalesSummary = () => {
   const [timeframe, setTimeframe] = useState("weekly");
 
   const totalValueSum =
-    salesData.reduce((acc, curr) => acc + curr.totalAmount, 0) || 0;
-
-    console.log(totalValueSum,"totalValueSum");
-    
+    salesData.reduce((acc, curr) => acc + curr.totalValue, 0) || 0;    
 
   const averageChangePercentage =
     salesData.reduce((acc, curr, _, array) => {      
       return acc + curr.changePercentage! / array.length;
     }, 0) || 0;
 
-    console.log(averageChangePercentage,"averageChangePercentage");
     
 
   const highestValueData = salesData.reduce((acc, curr) => {
-    return acc.totalAmount > curr.totalAmount ? acc : curr;
+    return acc.totalValue > curr.totalValue ? acc : curr;
   }, salesData[0] || {});
 
   const highestValueDate = highestValueData.date
