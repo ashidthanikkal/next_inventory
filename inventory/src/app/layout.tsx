@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "OUTDO",
-  description: "Discover OUTDO – your one-stop shop for outdoor gear, apparel, and accessories. Shop top brands, enjoy fast shipping, and elevate your adventure with our curated e-commerce experience.",
+  description: "OUTDO ADMIN",
 };
 
 
