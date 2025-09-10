@@ -31,7 +31,7 @@ app.use("/products", productRouts_1.default); // http://localhost:8000/products
 app.use("/users", userRouts_1.default); // http://localhost:8000/users
 app.use("/expenses", expenseRoutes_1.default); // http://localhost:8000/expenses
 //SERVER
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
+const PORT = Number(process.env.PORT) || 3001;
+app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server is running on port ${PORT}`);
 });
