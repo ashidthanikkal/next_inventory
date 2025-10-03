@@ -30,14 +30,13 @@ export const getProducts = async (req: Request, res: Response): Promise<void> =>
 
 export const createProduct = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { name, price, stockQuantity,rating,productId } = req.body;
+    const { name, price, stockQuantity,rating } = req.body;
     const newProduct = await prisma.products.create({
       data: {
         name,
         price,
         stockQuantity,
-        productId,
-        rating,
+        rating
       },
     });
     res.status(201).json(newProduct);
