@@ -3,8 +3,8 @@ import fs from "fs";
 import path from "path";
 const prisma = new PrismaClient();
 
-async function deleteAllData(orderedFileNames: string[]) {
-  const modelNames = orderedFileNames.map((fileName) => {
+async function deleteAllData(fileNames: string[]) {
+  const modelNames = fileNames.map((fileName) => {
     const modelName = path.basename(fileName, path.extname(fileName));
     return modelName.charAt(0).toUpperCase() + modelName.slice(1);
   });
@@ -15,9 +15,7 @@ async function deleteAllData(orderedFileNames: string[]) {
       await model.deleteMany({});
       console.log(`Cleared data from ${modelName}`);
     } else {
-      console.error(
-        `Model ${modelName} not found. Please ensure the model name is correctly specified.`
-      );
+      console.error(`Model ${modelName} not found.`);
     }
   }
 }
@@ -25,22 +23,37 @@ async function deleteAllData(orderedFileNames: string[]) {
 async function main() {
   const dataDirectory = path.join(__dirname, "seedData");
 
-const orderedFileNames = [
-  "salesSummary.json",
-  "sales.json",
-  "expenseSummary.json",
-  "purchases.json",
-  "purchaseSummary.json",
-  "expenseByCategory.json",
-  "expenses.json",
-  "users.json",
-  "products.json",   // products last
-];
+  // 👇 deletion order: children → parents
+  const deletionOrder = [
+    "salesSummary.json",
+    "sales.json",
+    "purchaseSummary.json",
+    "purchases.json",
+    "expenseByCategory.json",
+    "expenses.json",
+    "expenseSummary.json",
+    "users.json",
+    "products.json", // parents last
+  ];
 
+  // 👇 insertion order: parents → children
+  const insertionOrder = [
+    "products.json",
+    "users.json",
+    "expenseSummary.json",
+    "expenses.json",
+    "expenseByCategory.json",
+    "purchases.json",
+    "purchaseSummary.json",
+    "sales.json",
+    "salesSummary.json",
+  ];
 
-  await deleteAllData(orderedFileNames);
+  // Clear in child → parent order
+  await deleteAllData(deletionOrder);
 
-  for (const fileName of orderedFileNames) {
+  // Insert in parent → child order
+  for (const fileName of insertionOrder) {
     const filePath = path.join(dataDirectory, fileName);
     const jsonData = JSON.parse(fs.readFileSync(filePath, "utf-8"));
     const modelName = path.basename(fileName, path.extname(fileName));
@@ -52,16 +65,12 @@ const orderedFileNames = [
     }
 
     for (const data of jsonData) {
-      await model.create({
-        data,
-      });
+      await model.create({ data });
     }
 
     console.log(`Seeded ${modelName} with data from ${fileName}`);
   }
 }
-
-
 
 main()
   .catch((e) => {
