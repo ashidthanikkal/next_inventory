@@ -25,17 +25,18 @@ async function deleteAllData(orderedFileNames: string[]) {
 async function main() {
   const dataDirectory = path.join(__dirname, "seedData");
 
-  const orderedFileNames = [
-    "products.json",
-    "expenseSummary.json",
-    "sales.json",
-    "salesSummary.json",
-    "purchases.json",
-    "purchaseSummary.json",
-    "users.json",
-    "expenses.json",
-    "expenseByCategory.json",
-  ];
+const orderedFileNames = [
+  "salesSummary.json",
+  "sales.json",
+  "expenseSummary.json",
+  "purchases.json",
+  "purchaseSummary.json",
+  "expenseByCategory.json",
+  "expenses.json",
+  "users.json",
+  "products.json",   // products last
+];
+
 
   await deleteAllData(orderedFileNames);
 
@@ -59,6 +60,8 @@ async function main() {
     console.log(`Seeded ${modelName} with data from ${fileName}`);
   }
 }
+
+
 
 main()
   .catch((e) => {
